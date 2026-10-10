@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Letter for Rithesh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0b0f19;
+            --accent-gold: #e5c158;
+            --accent-soft-gold: #f4e3b2;
+            --card-glass: rgba(18, 26, 43, 0.65);
+            --card-border: rgba(229, 193, 88, 0.25);
+            --text-main: #f0f4f8;
+            --text-muted: #94a3b8;
+            --poem-text: #fef08a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Hazy Ambient Background */
+        .haze-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.45;
+            animation: floatOrb 22s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(99,102,241,0.5) 0%, rgba(0,0,0,0) 70%);
+            top: -10%;
+            left: -10%;
+        }
+
+        .orb-2 {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(0,0,0,0) 70%);
+            bottom: -15%;
+            right: -10%;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(229,193,88,0.3) 0%, rgba(0,0,0,0) 70%);
+            top: 40%;
+            left: 30%;
+            animation-delay: -14s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, 80px) scale(1.15); }
+            100% { transform: translate(-40px, -60px) scale(0.9); }
+        }
+
+        canvas#particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Outer Container */
+        .wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 480px;
+            padding: 24px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Initial Envelope Screen */
+        .envelope-card {
+            width: 100%;
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 36px 24px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .envelope-card:active {
+            transform: scale(0.98);
+        }
+
+        .seal-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(229,193,88,0.3), rgba(229,193,88,0.05));
+            border: 1px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            box-shadow: 0 0 25px rgba(229, 193, 88, 0.25);
+            animation: pulseGlow 2.5s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(229, 193, 88, 0.2); }
+            100% { box-shadow: 0 0 30px rgba(229, 193, 88, 0.45); }
+        }
+
+        .env-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--accent-soft-gold);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .env-subtitle {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        .open-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #e5c158, #b88e28);
+            color: #0b0f19;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 8px 20px rgba(229, 193, 88, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        /* Letter Main View */
+        .letter-content {
+            display: none;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .letter-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .letter-card {
+            background: var(--card-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 32px 22px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            margin-bottom: 24px;
+        }
+
+        .header-tag {
+            text-align: center;
+            font-family: 'Alex Brush', cursive;
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 6px;
+        }
+
+        .recipient-title {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed rgba(229, 193, 88, 0.2);
+        }
+
+        .paragraph {
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: rgba(240, 244, 248, 0.92);
+            margin-bottom: 18px;
+            text-align: left;
+            letter-spacing: 0.2px;
+        }
+
+        .paragraph:last-of-type {
+            margin-bottom: 0;
+        }
+
+        /* Verses / Poem Section */
+        .verses-card {
+            background: linear-gradient(180deg, rgba(229, 193, 88, 0.08) 0%, rgba(18, 26, 43, 0.7) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(229, 193, 88, 0.35);
+            border-radius: 24px;
+            padding: 32px 22px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verses-card::before {
+            content: "“";
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-family: 'Cinzel', serif;
+            font-size: 5rem;
+            color: rgba(229, 193, 88, 0.1);
+            line-height: 1;
+        }
+
+        .poem-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 2.5px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .stanza {
+            margin-bottom: 20px;
+        }
+
+        .stanza:last-child {
+            margin-bottom: 0;
+        }
+
+        .poem-line {
+            font-family: 'Cinzel', serif;
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: var(--poem-text);
+            letter-spacing: 0.4px;
+        }
+
+        .divider-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            opacity: 0.5;
+        }
+
+        .line {
+            height: 1px;
+            width: 40px;
+            background: var(--accent-gold);
+        }
+
+        .diamond {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-gold);
+            transform: rotate(45deg);
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Subtle audio indicator */
+        .audio-indicator {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 10;
+            background: rgba(18, 26, 43, 0.8);
+            border: 1px solid var(--card-border);
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .audio-indicator.show {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="haze-container">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <canvas id="particles"></canvas>
+
+    <div class="wrapper">
+        <!-- ENVELOPE / TAP SCREEN -->
+        <div class="envelope-card" id="envelope" onclick="openLetter()">
+            <div class="seal-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <div class="env-title">For Rithesh</div>
+            <div class="env-subtitle">A digital memory & note</div>
+            <button class="open-btn">
+                <span>Tap to Open</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+        </div>
+
+        <!-- FULL LETTER CONTENT -->
+        <div class="letter-content" id="letterContent">
+            <div class="letter-card">
+                <div class="header-tag">Dear</div>
+                <div class="recipient-title">Rithesh</div>
+
+                <div class="paragraph">
+                    If someone told me during that NCC camp that among all the sweat, drill shouts, and chaotic cultural prep, I’d find a friend like you, I wouldn’t have believed them. That camp gave me some of my worst stress, but standing beside you as MCs for a thousand cadets made every insane minute worth it.
+                </div>
+
+                <div class="paragraph">
+                    You were different from anyone I’d met—bubbly, genuinely kind, and completely grounded. When I made mistakes or ranted about my life, you just sat there and listened without a single shred of judgment. And when fever hit me right in the middle of our event and I couldn’t even stand straight, you checked my forehead, stayed right there, and literally stuffed a tea cake in my mouth because we were running on zero fuel. In a place so rigid, you were pure warmth.
+                </div>
+
+                <div class="paragraph">
+                    When camp ended and you went back to school, I spent those three months quietly hoping you wouldn't forget me. And when you reached out, my joy was beyond words. You helped me with my stuff effortlessly, without asking for anything in return. But I want you to know this isn't a one-way street—we are a team. We held down a massive stage together as equals, and that alliance doesn't end at school gates or board exams.
+                </div>
+
+                <div class="paragraph">
+                    Once my hand recovers and these syllabus bounds fade, whether I come visit or we build something across screens, we are going to make things happen—writing a survey paper, coding a new app, or just exploring somewhere new. Distance is just temporary logistics.
+                </div>
+
+                <div class="paragraph">
+                    Take care at residential school, Rithesh. Keep that spark alive. I’m proud to call you my friend and my partner in all of this.
+                </div>
+            </div>
+
+            <!-- VERSES CARD -->
+            <div class="verses-card">
+                <div class="poem-title">— Verses —</div>
+                
+                <div class="stanza">
+                    <div class="poem-line">Across the misty stretch of quiet stone,</div>
+                    <div class="poem-line">Where winter shadows lengthen in the hall,</div>
+                    <div class="poem-line">Remember that you do not walk alone,</div>
+                    <div class="poem-line">Nor does a faithful spirit fear the wall.</div>
+                </div>
+
+                <div class="divider-ornament">
+                    <div class="line"></div>
+                    <div class="diamond"></div>
+                    <div class="line"></div>
+                </div>
+
+                <div class="stanza">
+                    <div class="poem-line">For time and distance are but passing smoke,</div>
+                    <div class="poem-line">They cannot dim the embers that we share;</div>
+                    <div class="poem-line">Unbroken is the silent vow we spoke,</div>
+                    <div class="poem-line">And I will match your step—no matter where.</div>
+                </div>
+            </div>
+
+            <div class="footer-note">✦ Created with warm memories ✦</div>
+        </div>
+    </div>
+
+    <div class="audio-indicator" id="audioInd">
+        ✨ Ambient chime played
+    </div>
+
+    <script>
+        // Particle canvas effect
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particlesArr = [];
+        const particleCount = 45;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * -0.5 - 0.1;
+                this.alpha = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+                    this.y = canvas.height + 10;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(229, 193, 88, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particlesArr.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArr.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Web Audio API ambient chime on tap
+        function playChime() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const audioCtx = new AudioCtx();
+                
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, index) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (index * 0.15));
+                    
+                    gain.gain.setValueAtTime(0, audioCtx.currentTime + (index * 0.15));
+                    gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + (index * 0.15) + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (index * 0.15) + 1.8);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc.start(audioCtx.currentTime + (index * 0.15));
+                    osc.stop(audioCtx.currentTime + (index * 0.15) + 2.0);
+                });
+
+                const ind = document.getElementById('audioInd');
+                ind.classList.add('show');
+                setTimeout(() => ind.classList.remove('show'), 3000);
+            } catch (e) {
+                console.log('Audio playback prevented or unsupported');
+            }
+        }
+
+        function openLetter() {
+            const env = document.getElementById('envelope');
+            const content = document.getElementById('letterContent');
+
+            playChime();
+
+            env.style.opacity = '0';
+            env.style.transform = 'scale(0.9) translateY(-20px)';
+
+            setTimeout(() => {
+                env.style.display = 'none';
+                content.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
+        }
+    </script>
+</body>
+</html>
+
